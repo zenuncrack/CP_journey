@@ -1,82 +1,106 @@
 #include <bits/stdc++.h>
+
 using namespace std;
-#define flash                     \
-	ios_base::sync_with_stdio(0); \
-	cin.tie(0);                   \
-	cout.tie(0);
-#define nl '\n'
-typedef long long int ll;
-typedef unsigned long long int llu;
-int cnt;
-int mx = -(INT_MAX), nod;
-int vis[10001], dis[10001];
-vector<int>v[10001];
-void bfs(int node)
+
+int mx=999;
+int vis[100];
+vector<pair<int,int>>g[100];
+pair<int,int>cst[100];
+
+
+void relax(int u, int v, int w)
+{
+    if (cst[v].second > cst[u].second + w)
+    {
+        cst[v].second = cst[u].second + w;
+        cst[v].first = u;
+    }
+}
+
+void dfs(int node)
 {
 
-	queue<int> q;
-	q.push(node);
-	vis[node] = 1;
-	dis[node] = 0;
-	while (!q.empty())
-	{
-		int curr = q.front();
-		q.pop();
-		for (int child : v[curr])
-		{
-			if (vis[child] == 0)
-			{
-				dis[child] = dis[curr] + 1;
-				vis[child] = 1;
-				q.push(child);
-			}
-		}
-	}
+    vis[node]=1;
+    for(auto child: g[node])
+    {
+        if(vis[child.first]==0)
+        {
+            dfs(child.first);
+        }
+    }
+    vis[node]=2;
+
 }
-bool dfs(int node)
+
+void DAG(int node, int n)
 {
-	vis[node] = 1;
-	for (int child : v[node])
-	{
-		if (vis[child] == 0)
-		{
-			if (dfs(child) == true)
-			{
-				return true;
-				cnt++;
-			}
-		}
-		else
-		{
-			if (vis[child] == 1)
-			{
-				cnt++;
-				return true;
-			}
-		}
-	}
-	vis[node] = 2;
-	return false;
+
+    for(int i=1; i<=n; i++)
+    {
+        if(vis[i]!=2)
+        {
+            dfs(i);
+        }
+    }
+    for (int i = 1; i <= n; i++)
+    {
+        if (i == node)
+        {
+            cst[i].first = 0;
+            cst[i].second = 0;
+        }
+        else
+        {
+            cst[i].first = 0;
+            cst[i].second = mx;
+        }
+    }
+
+    for (int j=1; j<=n; j++)
+    {
+        for (auto v : g[j])
+            relax(j, v.first, v.second);
+    }
 }
+void path_print(int v){
+
+    if(cst[v].first==0){
+        cout<<v<<" ";
+        return;
+    }
+    path_print(cst[v].first);
+    cout<<v<<" ";
+
+}
+
 int main()
 {
-	flash;
-	int n, m, x, y, i;
-	cin >> n >> m;
-	while (m--)
-	{
-		cin >> x >> y;
-		v[x].push_back(y);
-		v[y].push_back(x);
-	}
-	bool ans = dfs(1);
-	if (ans)
-	{
-		cout << "cycle exists" << endl;
-	}
-	else
-	{
-		cout << "cycle doesn't exists" << endl;
-	}
-	cout << cnt << endl;
+    int n,e;
+    cout<<"Enter the numbers of Node:"<<endl;
+    cin>>n;
+    cout<<"Enter the numbers of Edges:"<<endl;
+    cin>>e;
+    cout<<"Enter your Data:"<<endl;
+    while(e--)
+    {
+        int x,y,w;
+        cin>>x>>y>>w;
+        g[x].push_back(make_pair(y,w));
+
+    }
+    int x;
+    cout<<"Enter your source:"<<endl;
+    cin>>x;
+    DAG(x,n);
+
+    for (int i = 1; i <= n; i++)
+    {
+
+        cout << i<<endl;
+        cout<< "Path : "<<endl;
+        path_print(i);
+        cout<<endl;
+        cout<<"cost: "<<cst[i].second<<endl;
+    }
+
 }
