@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define flash                         \
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);                    \
@@ -16,6 +17,8 @@ int main (){
 
 }
 =======
+=======
+>>>>>>> 858105c3b9536bc0c8ff6a6788940b0ddd79999c
 using namespace std;
 #define flash                     \
     ios_base::sync_with_stdio(0); \
@@ -49,5 +52,9 @@ typedef long long unsigned int llu;
     cout<<ans<<endl;
 
     }
+<<<<<<< HEAD
+ }
+>>>>>>> 858105c3b9536bc0c8ff6a6788940b0ddd79999c
+=======
  }
 >>>>>>> 858105c3b9536bc0c8ff6a6788940b0ddd79999c
