@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+#define flash                         \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+#define nl '\n'
+#define F first;
+#define S second;
+using namespace std;
+typedef long long int ll;
+typedef unsigned long long int llu;
+typedef long double ld;
+
+int main()
+{
+    flash;
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        ll n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++)
+            cin >> a[i];
+
+        int ans = 0;
+        for (int i = 0; i < n - 1; i++)
+        {
+            if (a[i] > a[i + 1])
+            {
+                ans = max(ans, a[i]);
+            }
+        }
+
+        cout << ans << nl;
+    }
+
+    return 0;
+}
